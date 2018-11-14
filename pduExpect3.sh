@@ -91,23 +91,25 @@ else
 	echo "Something Went Wrong, Miner Was NOT Rebooted"
 	exit 2
 fi
-
-while ! ping -c 1 $miner 2>/dev/null 1>&2; do 
-	pingCount=0
-	echo "WAITING FOR PING TO RETURN" 
-	sleep 5 
+pingCount=0
+while ! ping -c 1 $miner 2>/dev/null 1>&2 ; do 
+	echo "WAITING FOR PING TO RETURN #$pingCount" 
+	sleep 3 
 	((pingCount++))
-	if [ pingCount -ge 10 ]; then
+	if [ "$pingCount" -ge 10 ]; then
 		echo "It Has Been A While And Miner Still Isnt Responding To Ping"
 		echo "Would You Like To Try And Reboot Again?"
 		read -n 1 -p "Yes? Or no? " yn
 		case $yn in
 		  [YyNn])
+		  ;;
 		  Yy) exec "$0" "$@"
 		  ;;
 		  Nn) exit 0
 		  ;;
 		esac
+	fi
 done
+echo "It Looks Like Ping Is Successful. $miner IS BACK UP!"
 exit 0
 
