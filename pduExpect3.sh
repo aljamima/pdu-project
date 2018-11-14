@@ -1,5 +1,6 @@
 #!/bin/bash
 miner=$1
+#echo -e "\e[41;38;5;82m redBgGreenText \e[30;48;5;82m greenBgDarkText \e[0m" ##this line prints first in red second green
 function rootCheck {
 	if [[ $EUID -ne 0 ]]; then
 		echo "This script must be run as root" 
@@ -8,9 +9,10 @@ fi
 }
 function validateIP {
 	ip=$1
+	if [[ $ip = 10.3.* ]]; then exit 2; fi
 	if expr "$ip" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
 		for i in 1 2 3 4; do
-			if [ "$(echo "$ip" | cut -d. -f$i) -gt 255" ]; then
+			if [ $(echo "$ip" | cut -d. -f$i) -gt 255 ]; then
 				echo "fail - invalid ip:($ip)"
 				exit 1
 			fi

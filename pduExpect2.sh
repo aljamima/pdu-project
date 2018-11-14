@@ -8,6 +8,7 @@ fi
 }
 function validateIP {
 	ip=$1
+	if [[ $ip = 10.3.* ]]; then exit 2; fi
 	if expr "$ip" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
 		for i in 1 2 3 4; do
 			if [ $(echo "$ip" | cut -d. -f$i) -gt 255 ]; then
