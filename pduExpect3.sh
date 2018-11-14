@@ -10,7 +10,7 @@ function validateIP {
 	ip=$1
 	if expr "$ip" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
 		for i in 1 2 3 4; do
-			if [ $(echo "$ip" | cut -d. -f$i) -gt 255 ]; then
+			if [ "$(echo "$ip" | cut -d. -f$i) -gt 255" ]; then
 				echo "fail - invalid ip:($ip)"
 				exit 1
 			fi
@@ -77,29 +77,29 @@ fi
 rootCheck
 validateIP $miner
 setupArrays
-cutMiner=$(echo $miner |sed 's/\./ /g')
-octet1=$(echo $cutMiner |awk '{print $1;}')
-octet2=$(echo $cutMiner |awk '{print $2;}')
-octet3=$(echo $cutMiner |awk '{print $3;}')
-octet4=$(echo $cutMiner |awk '{print $4;}')
+cutMiner="$(echo $miner |sed 's/\./ /g')"
+octet1="$(echo $cutMiner |awk '{print $1;}')"
+octet2="$(echo $cutMiner |awk '{print $2;}')"
+octet3="$(echo $cutMiner |awk '{print $3;}')"
+octet4="$(echo $cutMiner |awk '{print $4;}')"
 newOctet=${outletMap[$octet4]}
-pduIp=$(echo "$octet1.$octet2$octet2.$octet3.$newOctet")
+pduIp="$octet1.$octet2$octet2.$octet3.$newOctet"
 echo "pduIp: $pduIp"
-if rebooter $pduIp $octet4; then
+if "rebooter $pduIp $octet4"; then
 	echo "$miner WAS REBOOTED!"
 else
 	echo "Something Went Wrong, Miner Was NOT Rebooted"
 	exit 2
 fi
 pingCount=0
-while ! ping -c 1 $miner 2>/dev/null 1>&2 ; do 
+while ! "ping -c 1 $miner 2>/dev/null 1>&2"; do 
 	echo "WAITING FOR PING TO RETURN #$pingCount" 
 	sleep 3 
 	((pingCount++))
 	if [ "$pingCount" -ge 10 ]; then
 		echo "It Has Been A While And Miner Still Isnt Responding To Ping"
 		echo "Would You Like To Try And Reboot Again?"
-		read -n 1 -p "Yes? Or no? " yn
+		read -r -n 1 -p "Yes? Or no? " yn
 		case $yn in
 		  [YyNn])
 		  ;;
