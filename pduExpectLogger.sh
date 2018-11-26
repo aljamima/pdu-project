@@ -1,6 +1,19 @@
 #!/bin/bash
+### Uncomment these lines for first run only. I will improve at some point...
+# mkdir /var/log/pduExpect
+# sudo chown -R shawnm:shawnm
+# touch /var/log/pduExpect/pduExpectLogger.log
+# sudo chmod 777 /var/log/pduExpect/pduExpectLogger.log
+LOG_FILE="/var/log/pduExpect/pduExpectLog.log"
+logit() {
+    while read
+    do
+        echo "$(date) $REPLY" >> ${LOG_FILE}
+    done
+}
+exec 3>&1 1>> >(logit) 2>&1
 miner=$1
-if [[ $miner = 10.3.* ]]; then exit 2; fi
+if [[ $miner = 10.3.* ]]; then echo "We Dont Do 10.3. Range... EXITING" ; exit 2; fi
 function rebooter { #takes two args, pduIp and outletNum
     outlet=$2
     pduIp=$1
@@ -19,7 +32,6 @@ function rebooter { #takes two args, pduIp and outletNum
     sleep 5
 EOD
 }
-
 declare -A outletMap
 outletMap[1]=1
 outletMap[2]=1
@@ -57,10 +69,8 @@ echo "$pduIp"
 if rebooter $pduIp $octet4; then
 	echo "$miner WAS REBOOTED!"
 else
-	echo "Something Went Wrong, Miner Was NOT Rebooted"
+	echo "Something Went Wrong, $miner Was NOT Rebooted"
 fi
 exit 0
-
-
 
 
