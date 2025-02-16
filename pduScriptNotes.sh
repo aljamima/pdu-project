@@ -1,4 +1,4 @@
-my own auto reboot script. ssh into miner 1 by 1, hashrate is less tahn 10 reboot
+my own auto reboot script. ssh into miner 1 by 1, hashrate is less tahn 10 reboot 
 
 outctrl.html:
 curl 'http://10.11.1.2/outctrl.html' -H 'Authorization: Basic YWRtbjphZG1u' -H 'Accept-Encoding: gzip, deflate' -H 'Accept-Language: en-US,en;q=0.9,es-419;q=0.8,es;q=0.7,ru;q=0.6' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H 'Referer: http://10.11.1.2/outctrl.html' -H 'Cookie: C5=1085377743; C0=FF00FF00FF0000000000000000000000' -H 'Connection: keep-alive' -H 'Cache-Control: max-age=0' --compressed

@@ -7,6 +7,7 @@ import ipaddress
 import time 
 
 miner_ip = sys.argv[1]
+
 logging.basicConfig(
     filename="/var/log/pduExpect/pduExpectLogger.log",
     level=logging.DEBUG,
@@ -22,7 +23,7 @@ else:
     logging.debug('Script Called With Args: ' + str(miner_ip))
 
 if '10.3' in miner_ip:
-    print('We Dont Do 10.3 IPs Around Here. Exiting...')
+    print('We Dont Do 10.3 IPs Around Here. Exiting...') ## 10.3.x.x is dhcp range. We are only working on static configged PDUs here. 
     sys.exit(1)
 
 outlet_map = {

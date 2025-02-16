@@ -1,11 +1,15 @@
 #!/bin/bash
+
 miner=$1
+
+
 function rootCheck {
 	if [[ $EUID -ne 0 ]]; then
 		echo "This script must be run as root" 
 	exit 1
 fi
 }
+
 function validateIP {
 	ip=$1
 	if [[ $ip = 10.3.* ]]; then exit 2; fi
@@ -21,6 +25,7 @@ function validateIP {
 		exit 1
 	fi
 }
+
 function rebooter { #takes two args, pduIp and outletNum
     outlet=$2
     pduIp=$1
@@ -39,6 +44,7 @@ function rebooter { #takes two args, pduIp and outletNum
     sleep 5
 EOD
 }
+
 function setupArrays {
 	declare -Ag outletMap
 		outletMap[1]=1
@@ -77,7 +83,7 @@ fi
 
 rootCheck
 validateIP $miner
-setupArrays
+setupArrays 
 cutMiner=$(echo $miner |sed 's/\./ /g')
 octet1=$(echo $cutMiner |awk '{print $1;}')
 octet2=$(echo $cutMiner |awk '{print $2;}')
